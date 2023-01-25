@@ -4,14 +4,26 @@ router = express.Router();
 const conexion = require ('./database/db');
 
 router.get('/', (req, res)=>{
+	
+
 	conexion.query('select * from cards', (error, results) =>{
 		if (error) {
 			throw error;
 		}else{
-			res.send(results);
+			res.render('index',{results:results});
 		}
 	});
 
 });
+
+//ruta para crear registros
+
+router.get('/create', (req,res)=>{
+	res.render('create');
+})
+
+const crud = require('./controllers/crud');
+
+router.post('/save',crud.save);
 
 module.exports = router;
